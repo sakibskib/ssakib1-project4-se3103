@@ -63,11 +63,14 @@ public class TimeListener implements ActionListener{
     private void processCollision(){
         var shooter = gameBoard.getShooter();
         var enemyComposite = gameBoard.getEnemyComposite();
+        
 
 
         shooter.removeBulletOutOfBound();
         enemyComposite.removeBombsOutOfBound();
         enemyComposite.processCollision(shooter);
+        shooter.processCollision(enemyComposite);
+        gameBoard.scoreDisplay();
 
     }
     private void update(){

@@ -30,6 +30,7 @@ public class Gameboard {
     private Timer timer;
     private TimeListener timeListener;
     private EnemyComposite enemyComposite;
+    private int score;
 
 
     public Gameboard(JFrame window){
@@ -68,12 +69,29 @@ public class Gameboard {
         canvas.getGameElements().clear();
         canvas.getGameElements().add(shooter);
         canvas.getGameElements().add(enemyComposite);
+    
             timer.start();
         });
 
         quitButton.addActionListener(event -> System.exit(0));
 
     }
+    
+
+
+    public void scoreDisplay(){
+        score = enemyComposite.getScore();
+        canvas.getGameElements().add(new TextDraw("Score is:" + score, 100, 150, Color.red, 20));
+        
+    }
+
+
+    // public int getScore() {
+    //     return score;
+    // }
+    // public void setScore(int score) {
+    //     this.score = score;
+    // }
     public MyCanvas getCanvas() {
         return canvas;
     }

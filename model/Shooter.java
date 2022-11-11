@@ -26,6 +26,32 @@ public class Shooter extends GameElement {
         components.add(s4);
 
     }
+    public void processCollision(EnemyComposite enemyComposite){
+        var removeBombs = new ArrayList<GameElement>();
+        var bombs = enemyComposite.getBombs();
+        var removeShooter = new ArrayList<GameElement>();
+
+        //shooter vs bombs
+        for (var c: components){
+            for (var b:bombs){
+                if(c.collideWith(b)){
+                    removeBombs.add(b);
+                    removeShooter.add(c);
+                }
+            }
+        }
+        enemyComposite.getBombs().removeAll(removeBombs);
+        components.removeAll(removeShooter);
+        
+
+
+
+
+    }
+
+
+
+
     public ArrayList<GameElement> getWeapons() {
         return weapons;
     }
