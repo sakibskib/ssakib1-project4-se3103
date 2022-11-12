@@ -17,8 +17,6 @@ public class EnemyComposite extends GameElement {
     public static final int ENEMY_SIZE = 20;
     public static final int UNIT_MOVE = 5;
 
-    
-
     private ArrayList<ArrayList<GameElement>> rows;
 
     private ArrayList<GameElement> bombs;
@@ -29,7 +27,7 @@ public class EnemyComposite extends GameElement {
     private int heightOfEnemy = 0;
     private boolean touchedEnd = false;
     private boolean touchedBottom;
-    private int score =0;
+    private int score = 0;
     private MyCanvas canvas;
 
     public EnemyComposite() {
@@ -118,22 +116,26 @@ public class EnemyComposite extends GameElement {
     public int getScore() {
         return score;
     }
-public ArrayList<GameElement> getBombs() {
-    return bombs;
-}
-public ArrayList<ArrayList<GameElement>> getRows() {
-    return rows;
-}
+
+    public ArrayList<GameElement> getBombs() {
+        return bombs;
+    }
+
+    public ArrayList<ArrayList<GameElement>> getRows() {
+        return rows;
+    }
+
     public void setScore(int score) {
         this.score = score;
     }
+
     public int getHeightOfEnemy() {
         return heightOfEnemy;
     }
 
     public void enemyArrayGoingDown() {
         int dy = ENEMY_SIZE;
-        //int heightOfEnemy = 0;
+        // int heightOfEnemy = 0;
         for (var col : rows) {
             for (var e : col) {
                 e.y += dy;
@@ -141,15 +143,17 @@ public ArrayList<ArrayList<GameElement>> getRows() {
             }
         }
         // if (heightOfEnemy == Gameboard.HEIGHT) {
-        //     touchedBottom = true;
-        //     System.out.println("touched bottom");
+        // touchedBottom = true;
+        // System.out.println("touched bottom");
 
-        //     gameboard.gameOver(Gameboard.Event.BottomReached);
-        //     System.out.println("eikhanei sesh");
-        //     gameboard.setGameOver(true);
-        //     gameboard.getTimer().stop();
-        //     gameboard.getCanvas().getGameElements().add(new TextDraw("game over", 10, 10, Color.red, 30));
-        //     gameboard.getCanvas().getGameElements().add(new TextDraw("enemy reach bottom Score:"+score, 150, 200, Color.red, 20));
+        // gameboard.gameOver(Gameboard.Event.BottomReached);
+        // System.out.println("eikhanei sesh");
+        // gameboard.setGameOver(true);
+        // gameboard.getTimer().stop();
+        // gameboard.getCanvas().getGameElements().add(new TextDraw("game over", 10, 10,
+        // Color.red, 30));
+        // gameboard.getCanvas().getGameElements().add(new TextDraw("enemy reach bottom
+        // Score:"+score, 150, 200, Color.red, 20));
 
         // }
     }
@@ -201,25 +205,24 @@ public ArrayList<ArrayList<GameElement>> getRows() {
 
     public void processCollision(Shooter shooter) {
         var removeBullets = new ArrayList<GameElement>();
-        
 
         // bullets vs enemies
         for (var row : rows) {
             var removeEnemies = new ArrayList<GameElement>();
-            
+
             for (var enemy : row) {
                 for (var bulles : shooter.getWeapons()) {
                     if (enemy.collideWith(bulles)) {
-                        score+=10;
+                        score += 10;
                         System.out.println("Score is: " + score);
-                    //score display code needed
+                        
                         removeBullets.add(bulles);
                         removeEnemies.add(enemy);
 
                     }
                 }
             }
-           
+
             row.removeAll(removeEnemies);
 
         }
@@ -242,14 +245,9 @@ public ArrayList<ArrayList<GameElement>> getRows() {
 
     }
     // public void touchedBottomGameOver(){
-    //     gameboard.getTimer().stop();
-    //     System.out.println("Game over");
+    // gameboard.getTimer().stop();
+    // System.out.println("Game over");
     // }
-    // public void scoreDisplay(){
-            
-    //         canvas.getGameElements().add(new TextDraw("Score is:" + score, 100, 150, Color.red, 20));
-    //     }
+    
 
-    
-    
 }

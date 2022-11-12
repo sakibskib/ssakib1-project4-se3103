@@ -21,9 +21,9 @@ public class Gameboard {
 
     public static final int WIDTH = 600;
     public static final int HEIGHT = 300;
-    public static final int FPS = 20 ;
+    public static final int FPS = 20;
 
-    public static final int DELAY= 1000/FPS ;
+    public static final int DELAY = 1000 / FPS;
 
     private JFrame window;
     private MyCanvas canvas;
@@ -36,17 +36,17 @@ public class Gameboard {
     private ArrayList<GameElement> scoreDisplay = new ArrayList<>();
 
     public enum Event {
-        ShooterDestroyed,BottomReached, ShooterEmpty, EnemyEmpty
+        ShooterDestroyed, BottomReached, ShooterEmpty, EnemyEmpty
     }
 
-    public Gameboard(JFrame window){
-        this.window= window;
+    public Gameboard(JFrame window) {
+        this.window = window;
 
     }
 
-    public void init(){
+    public void init() {
         Container cp = window.getContentPane();
-        canvas  = new MyCanvas(this, WIDTH, HEIGHT);
+        canvas = new MyCanvas(this, WIDTH, HEIGHT);
         cp.add(BorderLayout.CENTER, canvas);
         canvas.addKeyListener(new KeyController(this));
         canvas.requestFocusInWindow();
@@ -60,94 +60,90 @@ public class Gameboard {
         JPanel southPanel = new JPanel();
         southPanel.add(startButton);
         southPanel.add(quitButton);
-        cp.add(BorderLayout.SOUTH,southPanel);
+        cp.add(BorderLayout.SOUTH, southPanel);
 
-        canvas.getGameElements().add(new TextDraw("Click<Start> to Play ", 100, 100, Color.yellow  , 30));
+        canvas.getGameElements().add(new TextDraw("Click<Start> to Play ", 100, 100, Color.yellow, 30));
 
-        //shooter = new Shooter(Gameboard.WIDTH/2, Gameboard.HEIGHT-ShooterElement.SIZE);
+        // shooter = new Shooter(Gameboard.WIDTH/2,
+        // Gameboard.HEIGHT-ShooterElement.SIZE);
         timeListener = new TimeListener(this);
         timer = new Timer(DELAY, timeListener);
         // canvas.getGameElements().add(shooter);
 
         startButton.addActionListener(event -> {
-            gameOver=false;
-        shooter = new Shooter(Gameboard.WIDTH/2, Gameboard.HEIGHT-ShooterElement.SIZE);
-        enemyComposite = new EnemyComposite();
-        canvas.getGameElements().clear();
-        canvas.getGameElements().add(shooter);
-        canvas.getGameElements().add(enemyComposite);
-    
+            gameOver = false;
+            shooter = new Shooter(Gameboard.WIDTH / 2, Gameboard.HEIGHT - ShooterElement.SIZE);
+            enemyComposite = new EnemyComposite();
+            canvas.getGameElements().clear();
+            canvas.getGameElements().add(shooter);
+            canvas.getGameElements().add(enemyComposite);
+            
+
             timer.start();
         });
 
         quitButton.addActionListener(event -> System.exit(0));
 
     }
-    
 
-
-    public void scoreDisplay(){
-        scoreDisplay.clear();
-      //scoreDisplay.add(enemyComposite.getScore()); //enemyComposite.getScore()
-        // scoreDisplay.add();
-        // canvas.getGameElements().addAll(scoreDisplay);
-        canvas.getGameElements().add(new TextDraw("Score is:" + enemyComposite.getScore(), 100, 150, Color.red, 20));
+    public void scoreDisplay() {
         
+        canvas.getGameElements().add(new TextDraw("Score is:" + enemyComposite.getScore(), 0, 280, Color.red, 20));
+
     }
 
-    public void gameOver(Event event){
+    public void gameOver(Event event) {
         canvas.getGameElements().clear();
-        ArrayList<GameElement> endMessage = new ArrayList<>();
-        //endMessage.clear();
-        switch(event){
+       
+        switch (event) {
             case BottomReached:
-            //endMessage.add(new TextDraw("Game over", 200, 200, Color.red, 30));
-            //timer.stop();
-            // getCanvas().getGameElements().clear();
-            // getCanvas().getGameElements().add(new TextDraw("Game over", 200, 200, Color.red, 30));
-            // getCanvas().repaint();
-            gameOver=true;
-            break;
+                // endMessage.add(new TextDraw("Game over", 200, 200, Color.red, 30));
+                // timer.stop();
+                // getCanvas().getGameElements().clear();
+                // getCanvas().getGameElements().add(new TextDraw("Game over", 200, 200,
+                // Color.red, 30));
+                // getCanvas().repaint();
+                gameOver = true;
+                break;
             case ShooterDestroyed:
-            break;
+                break;
             case ShooterEmpty:
-            System.out.println("shooter gone");
-            endMessage.add(new TextDraw("Game over because of no shooter", 200, 200, Color.red, 30));
-            break;
-
+                //System.out.println("shooter gone");
+                //endMessage.add(new TextDraw("Game over because of no shooter", 200, 200, Color.red, 30));
+                break;
 
         }
-        gameOver= true;
-        //canvas.getGameElements().addAll(endMessage);
+        gameOver = true;
+        // canvas.getGameElements().addAll(endMessage);
         timer.stop();
 
     }
-   
 
-    // public int getScore() {
-    //     return score;
-    // }
-    // public void setScore(int score) {
-    //     this.score = score;
-    // }
+    
     public MyCanvas getCanvas() {
         return canvas;
     }
+
     public TimeListener getTimeListener() {
         return timeListener;
     }
+
     public Timer getTimer() {
         return timer;
     }
+
     public Shooter getShooter() {
         return shooter;
     }
+
     public EnemyComposite getEnemyComposite() {
         return enemyComposite;
     }
-    public boolean isGameOver(){
+
+    public boolean isGameOver() {
         return gameOver;
     }
+
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
     }
