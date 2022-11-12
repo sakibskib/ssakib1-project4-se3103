@@ -87,7 +87,7 @@ public class TimeListener implements ActionListener {
             gameBoard.getTimer().stop();
             gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Lost", 150, 170, Color.red, 30));
             gameBoard.getCanvas().getGameElements().add(
-                    new TextDraw("Enemy reach bottom Score:" + enemyComposite.getScore(), 150, 200, Color.red, 30));
+                    new TextDraw("Enemy reach bottom Score:" + enemyComposite.getScore(), 150, 200, Color.red, 20));
         }
 
         else if (shooter.getComponents().isEmpty()) {
@@ -103,9 +103,9 @@ public class TimeListener implements ActionListener {
             //System.out.println("eikhanei sesh v3");
             gameBoard.setGameOver(true);
             gameBoard.getTimer().stop();
-            gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Won", 150, 170, Color.red, 30));
+            gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Won", 150, 170, Color.green, 30));
             gameBoard.getCanvas().getGameElements()
-                    .add(new TextDraw("Enemy destroyed Score:" + enemyComposite.getScore(), 150, 200, Color.red, 20));
+                    .add(new TextDraw("Enemy destroyed Score:" + enemyComposite.getScore(), 150, 200, Color.green, 20));
         } else {
             shooter.removeBulletOutOfBound();
             enemyComposite.removeBombsOutOfBound();
