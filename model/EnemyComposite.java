@@ -17,9 +17,7 @@ public class EnemyComposite extends GameElement {
     public static final int ENEMY_SIZE = 20;
     public static final int UNIT_MOVE = 5;
 
-    public enum Event {
-        Scored, Win, Lose
-    }
+    
 
     private ArrayList<ArrayList<GameElement>> rows;
 
@@ -123,7 +121,9 @@ public class EnemyComposite extends GameElement {
 public ArrayList<GameElement> getBombs() {
     return bombs;
 }
-
+public ArrayList<ArrayList<GameElement>> getRows() {
+    return rows;
+}
     public void setScore(int score) {
         this.score = score;
     }
@@ -131,7 +131,7 @@ public ArrayList<GameElement> getBombs() {
         return heightOfEnemy;
     }
 
-    private void enemyArrayGoingDown() {
+    public void enemyArrayGoingDown() {
         int dy = ENEMY_SIZE;
         //int heightOfEnemy = 0;
         for (var col : rows) {
@@ -140,10 +140,18 @@ public ArrayList<GameElement> getBombs() {
                 heightOfEnemy = e.y;
             }
         }
-        if (heightOfEnemy == Gameboard.HEIGHT) {
-            touchedBottom = true;
-            System.out.println("touched bottom");
-        }
+        // if (heightOfEnemy == Gameboard.HEIGHT) {
+        //     touchedBottom = true;
+        //     System.out.println("touched bottom");
+
+        //     gameboard.gameOver(Gameboard.Event.BottomReached);
+        //     System.out.println("eikhanei sesh");
+        //     gameboard.setGameOver(true);
+        //     gameboard.getTimer().stop();
+        //     gameboard.getCanvas().getGameElements().add(new TextDraw("game over", 10, 10, Color.red, 30));
+        //     gameboard.getCanvas().getGameElements().add(new TextDraw("enemy reach bottom Score:"+score, 150, 200, Color.red, 20));
+
+        // }
     }
 
     private int rightEnd() {
@@ -193,6 +201,7 @@ public ArrayList<GameElement> getBombs() {
 
     public void processCollision(Shooter shooter) {
         var removeBullets = new ArrayList<GameElement>();
+        
 
         // bullets vs enemies
         for (var row : rows) {
@@ -203,12 +212,7 @@ public ArrayList<GameElement> getBombs() {
                     if (enemy.collideWith(bulles)) {
                         score+=10;
                         System.out.println("Score is: " + score);
-                    
-                    //    gameboard.setScore(score);
-
-                       
-            // canvas.getGameElements().add(new TextDraw("Score is: "+score,100, 100, Color.red, 15));
-        
+                    //score display code needed
                         removeBullets.add(bulles);
                         removeEnemies.add(enemy);
 
@@ -220,8 +224,6 @@ public ArrayList<GameElement> getBombs() {
 
         }
         shooter.getWeapons().removeAll(removeBullets);
-        // score += 10;
-        // System.out.println("Score is: " + score);
 
         // bullets vs bombs
 
@@ -239,6 +241,10 @@ public ArrayList<GameElement> getBombs() {
         bombs.removeAll(removeBombs);
 
     }
+    // public void touchedBottomGameOver(){
+    //     gameboard.getTimer().stop();
+    //     System.out.println("Game over");
+    // }
     // public void scoreDisplay(){
             
     //         canvas.getGameElements().add(new TextDraw("Score is:" + score, 100, 150, Color.red, 20));

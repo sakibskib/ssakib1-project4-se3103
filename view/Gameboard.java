@@ -3,7 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +13,7 @@ import javax.swing.Timer;
 import controller.KeyController;
 import controller.TimeListener;
 import model.EnemyComposite;
+import model.GameElement;
 import model.Shooter;
 import model.ShooterElement;
 
@@ -31,7 +32,12 @@ public class Gameboard {
     private TimeListener timeListener;
     private EnemyComposite enemyComposite;
     private int score;
+    private boolean gameOver;
+    private ArrayList<GameElement> scoreDisplay = new ArrayList<>();
 
+    public enum Event {
+        ShooterDestroyed,BottomReached, ShooterEmpty, EnemyEmpty
+    }
 
     public Gameboard(JFrame window){
         this.window= window;
@@ -64,6 +70,7 @@ public class Gameboard {
         // canvas.getGameElements().add(shooter);
 
         startButton.addActionListener(event -> {
+            gameOver=false;
         shooter = new Shooter(Gameboard.WIDTH/2, Gameboard.HEIGHT-ShooterElement.SIZE);
         enemyComposite = new EnemyComposite();
         canvas.getGameElements().clear();
@@ -80,11 +87,42 @@ public class Gameboard {
 
 
     public void scoreDisplay(){
-        score = enemyComposite.getScore();
-        canvas.getGameElements().add(new TextDraw("Score is:" + score, 100, 150, Color.red, 20));
+        scoreDisplay.clear();
+      //scoreDisplay.add(enemyComposite.getScore()); //enemyComposite.getScore()
+        // scoreDisplay.add();
+        // canvas.getGameElements().addAll(scoreDisplay);
+        canvas.getGameElements().add(new TextDraw("Score is:" + enemyComposite.getScore(), 100, 150, Color.red, 20));
         
     }
 
+    public void gameOver(Event event){
+        canvas.getGameElements().clear();
+        ArrayList<GameElement> endMessage = new ArrayList<>();
+        //endMessage.clear();
+        switch(event){
+            case BottomReached:
+            //endMessage.add(new TextDraw("Game over", 200, 200, Color.red, 30));
+            //timer.stop();
+            // getCanvas().getGameElements().clear();
+            // getCanvas().getGameElements().add(new TextDraw("Game over", 200, 200, Color.red, 30));
+            // getCanvas().repaint();
+            gameOver=true;
+            break;
+            case ShooterDestroyed:
+            break;
+            case ShooterEmpty:
+            System.out.println("shooter gone");
+            endMessage.add(new TextDraw("Game over because of no shooter", 200, 200, Color.red, 30));
+            break;
+
+
+        }
+        gameOver= true;
+        //canvas.getGameElements().addAll(endMessage);
+        timer.stop();
+
+    }
+   
 
     // public int getScore() {
     //     return score;
@@ -106,5 +144,11 @@ public class Gameboard {
     }
     public EnemyComposite getEnemyComposite() {
         return enemyComposite;
+    }
+    public boolean isGameOver(){
+        return gameOver;
+    }
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 }

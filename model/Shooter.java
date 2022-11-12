@@ -42,7 +42,7 @@ public class Shooter extends GameElement {
         }
         enemyComposite.getBombs().removeAll(removeBombs);
         components.removeAll(removeShooter);
-        
+
 
 
 
@@ -50,7 +50,9 @@ public class Shooter extends GameElement {
     }
 
 
-
+public ArrayList<GameElement> getComponents() {
+    return components;
+}
 
     public ArrayList<GameElement> getWeapons() {
         return weapons;
