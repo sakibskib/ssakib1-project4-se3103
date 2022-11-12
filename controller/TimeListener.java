@@ -85,7 +85,7 @@ public class TimeListener implements ActionListener {
             // System.out.println("eikhanei sesh v2");
             gameBoard.setGameOver(true);
             gameBoard.getTimer().stop();
-            gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over", 150, 170, Color.red, 30));
+            gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Lost", 150, 170, Color.red, 30));
             gameBoard.getCanvas().getGameElements().add(
                     new TextDraw("Enemy reach bottom Score:" + enemyComposite.getScore(), 150, 200, Color.red, 30));
         }
@@ -95,15 +95,15 @@ public class TimeListener implements ActionListener {
             //System.out.println("eikhanei sesh");
             gameBoard.setGameOver(true);
             gameBoard.getTimer().stop();
-            gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over", 150, 170, Color.red, 30));
+            gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Lost", 150, 170, Color.red, 30));
             gameBoard.getCanvas().getGameElements()
-                    .add(new TextDraw("Shooter destroyed Score:" + enemyComposite.getScore(), 150, 200, Color.red, 20));
+                    .add(new TextDraw("Shooter destroyed  Score:" + enemyComposite.getScore(), 150, 200, Color.red, 20));
         } else if (enemyComposite.getRows().get(0).isEmpty() && enemyComposite.getRows().get(1).isEmpty()) {
             gameBoard.gameOver(Gameboard.Event.EnemyEmpty);
             //System.out.println("eikhanei sesh v3");
             gameBoard.setGameOver(true);
             gameBoard.getTimer().stop();
-            gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over", 150, 170, Color.red, 30));
+            gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Won", 150, 170, Color.red, 30));
             gameBoard.getCanvas().getGameElements()
                     .add(new TextDraw("Enemy destroyed Score:" + enemyComposite.getScore(), 150, 200, Color.red, 20));
         } else {
