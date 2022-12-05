@@ -18,14 +18,13 @@ import model.SheildsComposite;
 import model.Shooter;
 import model.ShooterElement;
 import model.observerPattern.ShooterObserver;
-import model.strategyPattern.LevelOne;
-import model.strategyPattern.LevelSelector;
+
 
 public class Gameboard {
 
     public static final int WIDTH = 600;
     public static final int HEIGHT = 300;
-    public static final int FPS = 20;
+    public static  int FPS = 20;
 
     public static final int DELAY = 1000 / FPS;
 
@@ -39,16 +38,10 @@ public class Gameboard {
     private int score;
     private boolean gameOver;
     private ArrayList<GameElement> scoreDisplay = new ArrayList<>();
+   
 
 
-    //strategypattern 
-    // private LevelSelector levelSelector;
-    // public static int levelCount =0;
-    // public static boolean changingLevel = true;
-
-    public enum Event {
-        ShooterDestroyed, BottomReached, ShooterEmpty, EnemyEmpty
-    }
+    
 
     public Gameboard(JFrame window) {
         this.window = window;
@@ -91,21 +84,19 @@ public class Gameboard {
             canvas.getGameElements().add(sheildsComposite);
             ShooterObserver observer = new ShooterObserver(this);
             enemyComposite.addListener(observer);
+            
+
+
 
             timer.start();
-            //startNextLevel();
+            
         });
 
         quitButton.addActionListener(event -> System.exit(0));
 
     }
-    // public void startNextLevel(){
-    //     switch(levelCount){
-    //         case 0: levelSelector = new LevelOne(this);
-    //         break;
-    //     }
-    // }
 
+   
     public void scoreDisplay() {
         
         canvas.getGameElements().add(new TextDraw("Score:" + enemyComposite.getScore(), 0, 280, Color.red, 20));
@@ -113,36 +104,36 @@ public class Gameboard {
 
     }
 
-    public void gameOver(Event event) {
-        canvas.getGameElements().clear();
+    // public void gameOver(Event event) {
+    //     canvas.getGameElements().clear();
        
-        switch (event) {
-            case BottomReached:
-            System.out.println("Ei dik e aschey");
-           // enemyComposite.notifyObserver(model.EnemyComposite.Event.BottomReachedd);
-                // endMessage.add(new TextDraw("Game over", 200, 200, Color.red, 30));
-                // timer.stop();
-                // getCanvas().getGameElements().clear();
-                // getCanvas().getGameElements().add(new TextDraw("Game over", 200, 200,
-                // Color.red, 30));
-                // getCanvas().repaint();
-               // enemyComposite.notifyObserver(null);
-                //gameOver = true;
-                break;
-            case ShooterDestroyed:
-            System.out.println("kireh bhai kaaj kor");
-                break;
-            case ShooterEmpty:
-                //System.out.println("shooter gone");
-                //endMessage.add(new TextDraw("Game over because of no shooter", 200, 200, Color.red, 30));
-                break;
+    //     switch (event) {
+    //         case BottomReached:
+    //         System.out.println("Ei dik e aschey");
+    //        // enemyComposite.notifyObserver(model.EnemyComposite.Event.BottomReachedd);
+    //             // endMessage.add(new TextDraw("Game over", 200, 200, Color.red, 30));
+    //             // timer.stop();
+    //             // getCanvas().getGameElements().clear();
+    //             // getCanvas().getGameElements().add(new TextDraw("Game over", 200, 200,
+    //             // Color.red, 30));
+    //             // getCanvas().repaint();
+    //            // enemyComposite.notifyObserver(null);
+    //             //gameOver = true;
+    //             break;
+    //         case ShooterDestroyed:
+    //         System.out.println("kireh bhai kaaj kor");
+    //             break;
+    //         case ShooterEmpty:
+    //             //System.out.println("shooter gone");
+    //             //endMessage.add(new TextDraw("Game over because of no shooter", 200, 200, Color.red, 30));
+    //             break;
 
-        }
-        gameOver = true;
-        // canvas.getGameElements().addAll(endMessage);
-        timer.stop();
+    //     }
+    //     gameOver = true;
+    //     // canvas.getGameElements().addAll(endMessage);
+    //     timer.stop();
 
-    }
+    // }
 
     
     public MyCanvas getCanvas() {

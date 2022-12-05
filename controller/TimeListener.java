@@ -14,6 +14,8 @@ import model.SheildsComposite;
 import model.Shooter;
 import model.EnemyComposite.Event;
 import model.observerPattern.Subject;
+import model.strategyPattern.LevelBuilder;
+import model.strategyPattern.LevelTwo;
 import view.Gameboard;
 import view.MyCanvas;
 import view.TextDraw;
@@ -31,6 +33,8 @@ public class TimeListener implements ActionListener {
     private LinkedList<EventType> eventQueue;
     private final int BOMB_DROP_FREQ = 20;
     private int frameCounter = 0;
+    private int levelCount=0;
+    
 
     public TimeListener(Gameboard gameBoard) {
         this.gameBoard = gameBoard;
@@ -124,6 +128,16 @@ public class TimeListener implements ActionListener {
             gameBoard.getCanvas().getGameElements()
                     .add(new TextDraw("Shooter destroyed  Score:" + enemyComposite.getScore(), 150, 200, Color.red, 20));
         } else if (enemyComposite.getRows().get(0).isEmpty() && enemyComposite.getRows().get(1).isEmpty()) {
+            // levelCount++;
+            // if (levelCount==1){
+            //     levelTwo = new LevelTwo();
+            //    levelTwo.update();
+
+               
+
+
+
+            // }
            // gameBoard.gameOver(Gameboard.Event.EnemyEmpty);
             //System.out.println("eikhanei sesh v3");
             // gameBoard.setGameOver(true);
@@ -131,7 +145,9 @@ public class TimeListener implements ActionListener {
             // gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Won", 150, 170, Color.green, 30));
             gameBoard.getCanvas().getGameElements()
                     .add(new TextDraw("Enemy destroyed Score:" + enemyComposite.getScore(), 150, 200, Color.green, 20));
-        } else {
+                   
+       
+                } else {
             shooter.removeBulletOutOfBound();
             enemyComposite.removeBombsOutOfBound();
             enemyComposite.processCollision(shooter);

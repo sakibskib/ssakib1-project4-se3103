@@ -6,8 +6,13 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.builderPattern.BigBomb;
+import model.builderPattern.BombBuilder;
+import model.builderPattern.BombBuilderDirector;
+import model.builderPattern.RegularBomb;
 import model.observerPattern.Observer;
 import model.observerPattern.Subject;
+
 import view.Gameboard;
 import view.MyCanvas;
 import view.TextDraw;
@@ -40,9 +45,12 @@ public class EnemyComposite extends GameElement implements Subject {
     private int score = 0;
     private MyCanvas canvas;
 
+    
+
     public EnemyComposite() {
         rows = new ArrayList<>();
         bombs = new ArrayList<>();
+       
         for (int r = 0; r < NROW; r++) {
             var oneRow = new ArrayList<GameElement>();
             rows.add(oneRow);
@@ -52,19 +60,7 @@ public class EnemyComposite extends GameElement implements Subject {
             }
         }
     }
-    // public void resetEnemyComposite(){
-    //     for (var row:rows){
-    //         row.clear();
-    //     }
-    //     for (int r = 0; r < NROW; r++) {
-    //         var oneRow = new ArrayList<GameElement>();
-    //         rows.add(oneRow);
-    //         for (int c = 0; c < NCOLS; c++) {
-    //             oneRow.add(new Enemy(c * ENEMY_SIZE * 2, r * ENEMY_SIZE * 2, ENEMY_SIZE, Color.yellow, true));
-
-    //         }
-    //     }
-    // }
+    
 
 
     @Override
@@ -209,11 +205,23 @@ public class EnemyComposite extends GameElement implements Subject {
     }
 
     public void dropBombs() {
+        BombBuilderDirector director = new BombBuilderDirector();
         for (var row : rows) {
             for (var e : row) {
                 if (random.nextFloat() < 0.1F) {
-                    bombs.add(new Bomb(e.x, e.y));
+                    BombBuilder bomb = new RegularBomb(e.x,e.y);
+                    director.setBombBuilder(bomb);
+                    director.createBomb();
+                    bombs.add(director.getBomb());
                 }
+
+                if (random.nextFloat()<0.05){
+                    BombBuilder bomb = new BigBomb(e.x, e.y);
+                    director.setBombBuilder(bomb);
+                    director.createBomb();  
+                    bombs.add(director.getBomb());
+                }
+                
             }
         }
     }
@@ -260,7 +268,11 @@ public class EnemyComposite extends GameElement implements Subject {
         for (var b : bombs) {
             for (var bullet : shooter.getWeapons()) {
                 if (b.collideWith(bullet)) {
-                    score+=2;
+                    if(b.color==color.blue){
+                        score+=5;
+                    }
+                    else{score+=2;}
+                    
                     removeBombs.add(b);
                     removeBullets.add(bullet);
                 }

@@ -43,7 +43,9 @@ public class ShooterObserver implements Observer {
 
     @Override
     public void enemyCompositeEmpty() {
+
         gameBoard.setGameOver(true);
+        //gameBoard.getEnemyComposite().setLevelCounter(gameBoard.getEnemyComposite().getLevelCounter()+1);
         gameBoard.getTimer().stop();
         gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Won", 150, 170, Color.green, 30));
     }
