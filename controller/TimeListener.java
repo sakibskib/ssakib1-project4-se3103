@@ -3,13 +3,17 @@ package controller;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import model.Bullet;
 import model.EnemyComposite;
+import model.GameElement;
 import model.Sheilds;
 import model.SheildsComposite;
 import model.Shooter;
+import model.EnemyComposite.Event;
+import model.observerPattern.Subject;
 import view.Gameboard;
 import view.MyCanvas;
 import view.TextDraw;
@@ -22,6 +26,7 @@ public class TimeListener implements ActionListener {
     private Gameboard gameBoard;
 
     private EnemyComposite enemyComposite;
+    private EnemyComposite eComposite;
     private SheildsComposite sheildsComposite;
     private LinkedList<EventType> eventQueue;
     private final int BOMB_DROP_FREQ = 20;
@@ -76,38 +81,54 @@ public class TimeListener implements ActionListener {
     }
 
     private void processCollision() {
+
         var shooter = gameBoard.getShooter();
-        var enemyComposite = gameBoard.getEnemyComposite();
+        enemyComposite = gameBoard.getEnemyComposite();
         var sheildsComposite = gameBoard.getSheildsComposite();
+        
+     
+       
         
 
         if (enemyComposite.getHeightOfEnemy() == Gameboard.HEIGHT) {
 
             System.out.println("touched bottom");
-
-            gameBoard.gameOver(Gameboard.Event.BottomReached);
+ enemyComposite.notifyObserver(Event.BottomReachedd);
+            //gameBoard.gameOver(Gameboard.Event.BottomReached);
+           
+            
+            // // System.out.println("eikhanei sesh v2");
+            // gameBoard.setGameOver(true);
+            // gameBoard.getTimer().stop();
+            // gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Lost", 150, 170, Color.red, 30));
+            // gameBoard.getCanvas().getGameElements().add(
+            //         new TextDraw("Enemy reach bottom Score:" + enemyComposite.getScore(), 150, 200, Color.red, 20));
+            
+            // gameBoard.gameOver(Gameboard.Event.BottomReached);
+            
             // System.out.println("eikhanei sesh v2");
-            gameBoard.setGameOver(true);
-            gameBoard.getTimer().stop();
-            gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Lost", 150, 170, Color.red, 30));
+            // gameBoard.setGameOver(true);
+            // gameBoard.getTimer().stop();
+            // gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Lost", 150, 170, Color.red, 30));
             gameBoard.getCanvas().getGameElements().add(
                     new TextDraw("Enemy reach bottom Score:" + enemyComposite.getScore(), 150, 200, Color.red, 20));
         }
 
         else if (shooter.getComponents().isEmpty()) {
-            gameBoard.gameOver(Gameboard.Event.ShooterDestroyed);
-            //System.out.println("eikhanei sesh");
-            gameBoard.setGameOver(true);
-            gameBoard.getTimer().stop();
-            gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Lost", 150, 170, Color.red, 30));
+            enemyComposite.notifyObserver(Event.ShooterDestroyed);
+            // gameBoard.gameOver(Gameboard.Event.ShooterDestroyed);
+            // //System.out.println("eikhanei sesh");
+            // gameBoard.setGameOver(true);
+            // gameBoard.getTimer().stop();
+            // gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Lost", 150, 170, Color.red, 30));
             gameBoard.getCanvas().getGameElements()
                     .add(new TextDraw("Shooter destroyed  Score:" + enemyComposite.getScore(), 150, 200, Color.red, 20));
         } else if (enemyComposite.getRows().get(0).isEmpty() && enemyComposite.getRows().get(1).isEmpty()) {
-            gameBoard.gameOver(Gameboard.Event.EnemyEmpty);
+           // gameBoard.gameOver(Gameboard.Event.EnemyEmpty);
             //System.out.println("eikhanei sesh v3");
-            gameBoard.setGameOver(true);
-            gameBoard.getTimer().stop();
-            gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Won", 150, 170, Color.green, 30));
+            // gameBoard.setGameOver(true);
+            // gameBoard.getTimer().stop();
+            // gameBoard.getCanvas().getGameElements().add(new TextDraw("Game Over - You Won", 150, 170, Color.green, 30));
             gameBoard.getCanvas().getGameElements()
                     .add(new TextDraw("Enemy destroyed Score:" + enemyComposite.getScore(), 150, 200, Color.green, 20));
         } else {
@@ -131,5 +152,6 @@ public class TimeListener implements ActionListener {
     public LinkedList<EventType> getEventQueue() {
         return eventQueue;
     }
+
 
 }

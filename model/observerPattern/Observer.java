@@ -1,9 +1,10 @@
 package model.observerPattern;
 
 public interface Observer {
-    void bottomReached();
+    void bottomReachedd();
     void shooterDestroyed();
     void enemyCompositeEmpty();
+    void hitBullet();
 
     
 }

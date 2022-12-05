@@ -17,6 +17,9 @@ import model.GameElement;
 import model.SheildsComposite;
 import model.Shooter;
 import model.ShooterElement;
+import model.observerPattern.ShooterObserver;
+import model.strategyPattern.LevelOne;
+import model.strategyPattern.LevelSelector;
 
 public class Gameboard {
 
@@ -36,6 +39,12 @@ public class Gameboard {
     private int score;
     private boolean gameOver;
     private ArrayList<GameElement> scoreDisplay = new ArrayList<>();
+
+
+    //strategypattern 
+    // private LevelSelector levelSelector;
+    // public static int levelCount =0;
+    // public static boolean changingLevel = true;
 
     public enum Event {
         ShooterDestroyed, BottomReached, ShooterEmpty, EnemyEmpty
@@ -66,11 +75,10 @@ public class Gameboard {
 
         canvas.getGameElements().add(new TextDraw("Click<Start> to Play ", 100, 100, Color.yellow, 30));
 
-        // shooter = new Shooter(Gameboard.WIDTH/2,
-        // Gameboard.HEIGHT-ShooterElement.SIZE);
+        
         timeListener = new TimeListener(this);
         timer = new Timer(DELAY, timeListener);
-        // canvas.getGameElements().add(shooter);
+        
 
         startButton.addActionListener(event -> {
             gameOver = false;
@@ -81,14 +89,22 @@ public class Gameboard {
             canvas.getGameElements().add(shooter);
             canvas.getGameElements().add(enemyComposite);
             canvas.getGameElements().add(sheildsComposite);
-            
+            ShooterObserver observer = new ShooterObserver(this);
+            enemyComposite.addListener(observer);
 
             timer.start();
+            //startNextLevel();
         });
 
         quitButton.addActionListener(event -> System.exit(0));
 
     }
+    // public void startNextLevel(){
+    //     switch(levelCount){
+    //         case 0: levelSelector = new LevelOne(this);
+    //         break;
+    //     }
+    // }
 
     public void scoreDisplay() {
         
@@ -102,15 +118,19 @@ public class Gameboard {
        
         switch (event) {
             case BottomReached:
+            System.out.println("Ei dik e aschey");
+           // enemyComposite.notifyObserver(model.EnemyComposite.Event.BottomReachedd);
                 // endMessage.add(new TextDraw("Game over", 200, 200, Color.red, 30));
                 // timer.stop();
                 // getCanvas().getGameElements().clear();
                 // getCanvas().getGameElements().add(new TextDraw("Game over", 200, 200,
                 // Color.red, 30));
                 // getCanvas().repaint();
-                gameOver = true;
+               // enemyComposite.notifyObserver(null);
+                //gameOver = true;
                 break;
             case ShooterDestroyed:
+            System.out.println("kireh bhai kaaj kor");
                 break;
             case ShooterEmpty:
                 //System.out.println("shooter gone");

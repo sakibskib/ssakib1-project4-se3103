@@ -15,14 +15,22 @@ import view.TextDraw;
 public class EnemyComposite extends GameElement implements Subject {
 
     public static final int NROW = 2;
-    public static final int NCOLS = 10;
+    public static  int NCOLS = 10;
     public static final int ENEMY_SIZE = 20;
-    public static final int UNIT_MOVE = 5;
+    public static  int UNIT_MOVE = 5;
+
+
+    public enum Event{
+        BottomReachedd, ShooterDestroyed, EnemyDestroyed, HitBullet
+    }
+
 
     private ArrayList<ArrayList<GameElement>> rows;
 
     private ArrayList<GameElement> bombs;
     private Random random = new Random();
+
+    private ArrayList<Observer> observers = new ArrayList<>();
 
     private Gameboard gameboard;
     private boolean movingToRight = true;
@@ -44,6 +52,20 @@ public class EnemyComposite extends GameElement implements Subject {
             }
         }
     }
+    // public void resetEnemyComposite(){
+    //     for (var row:rows){
+    //         row.clear();
+    //     }
+    //     for (int r = 0; r < NROW; r++) {
+    //         var oneRow = new ArrayList<GameElement>();
+    //         rows.add(oneRow);
+    //         for (int c = 0; c < NCOLS; c++) {
+    //             oneRow.add(new Enemy(c * ENEMY_SIZE * 2, r * ENEMY_SIZE * 2, ENEMY_SIZE, Color.yellow, true));
+
+    //         }
+    //     }
+    // }
+
 
     @Override
     public void render(Graphics2D g2) {
@@ -130,6 +152,7 @@ public class EnemyComposite extends GameElement implements Subject {
     public void setScore(int score) {
         this.score = score;
     }
+    
 
     public int getHeightOfEnemy() {
         return heightOfEnemy;
@@ -250,13 +273,43 @@ public class EnemyComposite extends GameElement implements Subject {
 
     @Override
     public void addListener(Observer o) {
-        // TODO Auto-generated method stub
+        observers.add(o);
         
     }
 
     @Override
     public void removeListener(Observer o) {
-        // TODO Auto-generated method stub
+        observers.remove(o);
+        
+    }
+
+    @Override
+    public void notifyObserver(Event event) {
+        switch (event){
+            case BottomReachedd:
+            for (var o: observers){
+                o.bottomReachedd();
+            }
+            break;
+
+            case ShooterDestroyed:
+            for (var o: observers){
+                o.shooterDestroyed();
+            }
+            break;
+
+            case EnemyDestroyed: 
+            for (var o: observers){
+                o.enemyCompositeEmpty();
+            }
+            break;
+
+            case HitBullet:
+            for (var o: observers){
+                o.hitBullet();
+            }
+            break;
+        }
         
     }
     
