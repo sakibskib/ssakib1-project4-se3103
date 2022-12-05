@@ -8,13 +8,15 @@ public class Shooter extends GameElement {
 
     public static final int UNIT_MOVE = 10;
     public static final int MAX_BULLETS = 3;
+    // public static final int SHOOTER_HEALTH;
+    public int shooterHealth;
 
     private ArrayList<GameElement> components = new ArrayList<>();
     private ArrayList<GameElement> weapons = new ArrayList<>();
 
     public Shooter(int x, int y){
         super(x, y, 0, 0);
-
+        shooterHealth= 4;
         var size  = ShooterElement.SIZE;
         var s1 = new ShooterElement(x- size, y-size, Color.white, false);
         var s2 = new ShooterElement(x, y-size, Color.white, false);
@@ -37,9 +39,12 @@ public class Shooter extends GameElement {
                 if(c.collideWith(b)){
                     removeBombs.add(b);
                     removeShooter.add(c);
+                    shooterHealth--;
+                    //System.out.println(shooterHealth);
                 }
             }
         }
+        
         enemyComposite.getBombs().removeAll(removeBombs);
         components.removeAll(removeShooter);
 
@@ -49,7 +54,9 @@ public class Shooter extends GameElement {
 
     }
 
-
+public int getShooterHealth() {
+    return shooterHealth;
+}
 public ArrayList<GameElement> getComponents() {
     return components;
 }

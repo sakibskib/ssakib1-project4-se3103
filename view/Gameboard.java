@@ -14,6 +14,7 @@ import controller.KeyController;
 import controller.TimeListener;
 import model.EnemyComposite;
 import model.GameElement;
+import model.SheildsComposite;
 import model.Shooter;
 import model.ShooterElement;
 
@@ -31,6 +32,7 @@ public class Gameboard {
     private Timer timer;
     private TimeListener timeListener;
     private EnemyComposite enemyComposite;
+    private SheildsComposite sheildsComposite;
     private int score;
     private boolean gameOver;
     private ArrayList<GameElement> scoreDisplay = new ArrayList<>();
@@ -74,9 +76,11 @@ public class Gameboard {
             gameOver = false;
             shooter = new Shooter(Gameboard.WIDTH / 2, Gameboard.HEIGHT - ShooterElement.SIZE);
             enemyComposite = new EnemyComposite();
+            sheildsComposite = new SheildsComposite();
             canvas.getGameElements().clear();
             canvas.getGameElements().add(shooter);
             canvas.getGameElements().add(enemyComposite);
+            canvas.getGameElements().add(sheildsComposite);
             
 
             timer.start();
@@ -88,7 +92,8 @@ public class Gameboard {
 
     public void scoreDisplay() {
         
-        canvas.getGameElements().add(new TextDraw("Score is:" + enemyComposite.getScore(), 0, 280, Color.red, 20));
+        canvas.getGameElements().add(new TextDraw("Score:" + enemyComposite.getScore(), 0, 280, Color.red, 20));
+        canvas.getGameElements().add(new TextDraw("Health: "+ shooter.getShooterHealth(), 0, 295, Color.red, 20 ));
 
     }
 
@@ -146,5 +151,8 @@ public class Gameboard {
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+    }
+    public SheildsComposite getSheildsComposite() {
+        return sheildsComposite;
     }
 }

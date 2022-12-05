@@ -7,6 +7,8 @@ import java.util.LinkedList;
 
 import model.Bullet;
 import model.EnemyComposite;
+import model.Sheilds;
+import model.SheildsComposite;
 import model.Shooter;
 import view.Gameboard;
 import view.MyCanvas;
@@ -20,6 +22,7 @@ public class TimeListener implements ActionListener {
     private Gameboard gameBoard;
 
     private EnemyComposite enemyComposite;
+    private SheildsComposite sheildsComposite;
     private LinkedList<EventType> eventQueue;
     private final int BOMB_DROP_FREQ = 20;
     private int frameCounter = 0;
@@ -31,7 +34,7 @@ public class TimeListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // gameBoard.getCanvas().repaint();
+       
         ++frameCounter;
 
         if (gameBoard.isGameOver() == false) {
@@ -75,7 +78,8 @@ public class TimeListener implements ActionListener {
     private void processCollision() {
         var shooter = gameBoard.getShooter();
         var enemyComposite = gameBoard.getEnemyComposite();
-        // gameBoard.scoreDisplay();
+        var sheildsComposite = gameBoard.getSheildsComposite();
+        
 
         if (enemyComposite.getHeightOfEnemy() == Gameboard.HEIGHT) {
 
@@ -111,6 +115,8 @@ public class TimeListener implements ActionListener {
             enemyComposite.removeBombsOutOfBound();
             enemyComposite.processCollision(shooter);
             shooter.processCollision(enemyComposite);
+            sheildsComposite.processCollision(shooter, enemyComposite);
+            
         
         }
 

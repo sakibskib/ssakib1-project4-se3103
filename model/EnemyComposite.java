@@ -6,11 +6,13 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.observerPattern.Observer;
+import model.observerPattern.Subject;
 import view.Gameboard;
 import view.MyCanvas;
 import view.TextDraw;
 
-public class EnemyComposite extends GameElement {
+public class EnemyComposite extends GameElement implements Subject {
 
     public static final int NROW = 2;
     public static final int NCOLS = 10;
@@ -170,8 +172,8 @@ public class EnemyComposite extends GameElement {
 
         return xEnd;
     }
-
-    private int leftEnd() {
+    
+    public int leftEnd() {
         int xEnd = 9000;
         for (var row : rows) {
             if (row.size() == 0)
@@ -235,6 +237,7 @@ public class EnemyComposite extends GameElement {
         for (var b : bombs) {
             for (var bullet : shooter.getWeapons()) {
                 if (b.collideWith(bullet)) {
+                    score+=2;
                     removeBombs.add(b);
                     removeBullets.add(bullet);
                 }
@@ -244,10 +247,18 @@ public class EnemyComposite extends GameElement {
         bombs.removeAll(removeBombs);
 
     }
-    // public void touchedBottomGameOver(){
-    // gameboard.getTimer().stop();
-    // System.out.println("Game over");
-    // }
+
+    @Override
+    public void addListener(Observer o) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void removeListener(Observer o) {
+        // TODO Auto-generated method stub
+        
+    }
     
 
 }
